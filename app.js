@@ -1,11 +1,13 @@
 import express from 'express';
 import env from 'dotenv';
 import { log } from 'node:console';
-import testMiddleware from './middlewares/testMiddleware.js';
-import mongoose from 'mongoose';
 import { URL } from 'node:url';
+import mongoose from 'mongoose';
+import testMiddleware from './middlewares/testMiddleware.js';
 import testsRouter from './routes/testsRouter.js'
 import usersRouter from './routes/userRouter.js';
+import postsRouter from './routes/postRouter.js';
+import stockRouter from './routes/stockRouter.js';
 
 env.config();
 const app = express();
@@ -26,6 +28,10 @@ const init = () => {
     app.use('/api/tests', testMiddleware, testsRouter);
 
     app.use('/api/users', testMiddleware, usersRouter);
+
+    app.use('/api/posts', testMiddleware, postsRouter);
+
+    app.use('/api/stocks', testMiddleware, stockRouter);
 }
 
 
