@@ -1,18 +1,20 @@
 import express from 'express';
 import env from 'dotenv';
 import { log } from 'node:console';
-import { URL } from 'node:url';
+import { fileURLToPath, URL } from 'node:url';
 import mongoose from 'mongoose';
 import testMiddleware from './middlewares/testMiddleware.js';
 import testsRouter from './routes/testsRouter.js'
 import usersRouter from './routes/userRouter.js';
 import postsRouter from './routes/postRouter.js';
 import stockRouter from './routes/stockRouter.js';
+import path from 'node:path';
 
 env.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), 'public')));
 
 mongoose.connect(process.env.DB_URL).then(() => {
     const db = new URL(process.env.DB_URL);
@@ -25,6 +27,11 @@ mongoose.connect(process.env.DB_URL).then(() => {
 });
 
 const init = () => {
+
+    app.get('/', (req, res, next) => {
+        res.sendFile(path.join(path.dirname(fileURLToPath(import.meta.url)), 'public', 'index.html'));
+    })
+
     app.use('/api/tests', testMiddleware, testsRouter);
 
     app.use('/api/users', testMiddleware, usersRouter);
