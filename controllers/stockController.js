@@ -16,10 +16,12 @@ const stockController = {
             }
 
             const stocks = await Stock.find(filter).limit(perPage).skip(offset).sort({ createdAt: -1 });
+            const total = await Stock.countDocuments(filter);
+
             if (stocks.length === 0) {
                 return Response.error(res, 'No stocks found', 404);
             }
-            return Response.success(res, 'Stocks fetched successfully', stocks, 200);
+            return Response.success(res, 'Stocks fetched successfully', { stocks, total }, 200);
         } catch (error) {
             next(error);
         }

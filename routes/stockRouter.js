@@ -1,6 +1,7 @@
 import { Router } from "express";
 import stockController from "../controllers/stockController.js";
 import { Response } from "../utils/core.js";
+import testMiddleware from "../middlewares/testMiddleware.js";
 
 const router = Router();
 
@@ -9,7 +10,7 @@ router.route('/')
     .post(stockController.create);
 
 router.route('/:id')
-    .get(stockController.show)
+    .get(testMiddleware, stockController.show)
     .put(stockController.update)
     .delete(stockController.delete);
 

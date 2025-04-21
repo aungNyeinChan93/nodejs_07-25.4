@@ -1,5 +1,4 @@
 
-
 const testMiddleware = (req, res, next) => {
     try {
         req.test = 'Test middleware added this property';
